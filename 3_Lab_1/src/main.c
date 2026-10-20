@@ -28,7 +28,7 @@ int main()
     //Объявление переменных и флагов
     int inputMethod = NOT_SET, err = 0;
     FILE* inStream = NULL;
-    struct Matrix2D matrix;
+    struct Matrix2D matrix = { NULL, 0 }; ;
     matrix.array = NULL;
     matrix.size = 0;
     bool inLoop = true;
@@ -49,12 +49,21 @@ int main()
                "\t3 - Случайно\n"
                "\t0 - Выйти\n"
                "Ваш выбор: ");
-        if(scanf("%d", &inputMethod) != 1) {
-            clearStdin();
-            printf("Необходимо вводить число от 0 до 3.\n");
-            continue;
+        {
+            char line[64];
+            int parsed = 0;
+            if(fgets(line, sizeof(line), stdin) == NULL) {
+                printf("Консольный ввод закрыт (EOF).\n");
+                return EXC_INPUT_FAULT;
+            }
+            if(readIntLine(line, &parsed)) {
+                inputMethod = parsed;
+            } else {
+                printf("Необходимо вводить число от 0 до 3.\n");
+                continue;
+            }
         }
-        clearStdin(); //ОЧИСТКА БУФЕРА
+
         printf("\n");
 
         //Switch-выражение по результатам выбора ввода
@@ -97,9 +106,14 @@ int main()
         while(true) {
 
             if(inputMethod == KEYBOARD) {
+                if(matrix.array != NULL) {
+                    free2DSqrArray(matrix.size, matrix.array);
+                    matrix.array = NULL;
+                }
+
                 matrix.array = alloc2DSqrArrayV(matrix.size);
                 if(matrix.array == NULL) {
-                    return ERR_NULL_ARGUMENT;
+                    return ERR_MEM_ALLOC;
                 }
 
                 for(int i = 0; i < matrix.size; ++i) {
@@ -107,12 +121,19 @@ int main()
                         int val = -1;
                         while(val != 0 && val != 1) {
                             printf("    [%d][%d] (0 или 1): ", i, j);
-                            if(scanf("%d", &val) != 1) {
-                                clearStdin();
-                                val = -1;   //
+                            char line[64];
+                            int parsed = -1;
+                            if(fgets(line, sizeof(line), stdin) == NULL) {
+                                printf("Консольный ввод закрыт (EOF).\n");
+                                free2DSqrArray(matrix.size, matrix.array);
+                                matrix.array = NULL;
+                                return EXC_INPUT_FAULT;
+                            }
+                            if(!readIntLine(line, &parsed)) {
+                                printf("Надо вводить 0 или 1! Повторите элемент [%d][%d].\n", i, j);
                                 continue;
                             }
-                            clearStdin();
+                            val = parsed;
                             if(val != 0 && val != 1) {
                                 printf("Числа только 0 или 1! Повторите элемент [%d][%d].\n", i, j);
                             }
@@ -128,15 +149,23 @@ int main()
 //                }
 
                 if((err = fillMatrixFromFile(inStream, &matrix)) != 0) {
-                    printf("%d", err);
-                    return err;
+                    printf("Ошибка загрузки матрицы из файла: код %d\n", err);
+                    fclose(inStream);
+                    inStream = NULL;
+                    break;
                 }
                 //return 100;
 
             } else if(inputMethod == RANDOM) {
+                if(matrix.array != NULL) {
+                    free2DSqrArray(matrix.size, matrix.array);
+                    matrix.array = NULL;
+                }
+
                 matrix.array = alloc2DSqrArrayV(matrix.size);
+
                 if(matrix.array == NULL) {
-                    return ERR_NULL_ARGUMENT;
+                    return ERR_MEM_ALLOC;
                 }
 
                 err = randomFill2DMatrix(&matrix);
@@ -156,12 +185,30 @@ int main()
 
             break;
         }
+
         if(inStream != NULL && inStream != stdin) {
             fclose(inStream);
         }
+
         inStream = NULL;
         printf("\nПродолжить выполнение:\n");
         _getch();
+
+       /* bool ar = isAntireflexive(&matrix);
+        bool as = isAntisymmetric(&matrix);
+        bool tr = isTransitive(&matrix);
+        bool lin = isLinearOrder(&matrix);
+
+        printf(" ? : %s\n", ar ? "Да" : "Нет");
+        printf(" ? : %s\n", as ? "Да" : "Нет");
+        printf(" ?     : %s\n", tr ? "Да" : "Нет");
+        printf("  (   )? : %s\n", lin ? "Да" : "Нет");
+        if(ar && as && tr) {
+            printf("Матрица задаёт отношение строгого математического порядка.\n");
+        } else {
+            printf("Матрица НЕ задаёт конкретного отношения порядка!\n");
+        }*/
+
         if (matrix.array != NULL) {
             free2DSqrArray(matrix.size, matrix.array);
             matrix.array = NULL;

@@ -73,7 +73,7 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
     }
 
     for(int i = 0; i < matrix->size; ++i) {
-        for(int j = 0; j < matrix->size; ++j) {
+        for(int j = i + 1; j < matrix->size; ++j) {
             matrix->array[i][j] = rand() % 2;
         }
     }

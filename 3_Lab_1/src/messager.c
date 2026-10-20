@@ -2,25 +2,38 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 #include "../include/messanger.h"
 #include "../include/io_lib.h"
 #include "../include/usr_constants.h"
 
 
-void inline ru_locale_init() {
-    setlocale(LC_ALL, "65001");
-    SetConsoleCP(65001);
-    SetConsoleOutputCP(65001);
-}
-
 int inline askFileName(FILE **filePtr) {
     int inputErrors = 0;
     while(1) {
-        printf("Введите найзвание файла (30 симв.): ");
-        char filename[30];
-        scanf("%29s", filename);
-        clearStdin();
+        printf("Введите найзвание файла (255 симв.): ");
+        char filename[256];
+        if(fgets(filename, sizeof(filename), stdin) == NULL) {
+            printf("Консольный ввод закрыт (EOF).\n");
+            *filePtr = NULL;
+            return EXC_INPUT_FAULT;
+        }
+        size_t len = strlen(filename);
+        while(len > 0 && (filename[len-1] == '\n' || filename[len-1] == '\r')) --len;
+        if(len == 0) {
+            ++inputErrors;
+            if(inputErrors >= 3) {
+                printf("    .");
+                *filePtr = NULL;
+                return EXC_INPUT_FAULT;
+            }
+            printf("Имя файла пустое. Повторите попытку.\n");
+            continue;
+        }
+
         //ОЧИСТКА БУФЕРА
         *filePtr = fopen(filename, "r");
         if(*filePtr == NULL) {
@@ -43,28 +56,34 @@ int inline askMatrixSize(int* size) {
     int inputErrors = 0;
     while(1) {
         printf("Введите размер матрицы: ");
-        if(scanf("%d", size) != 1) {
-            clearStdin();
+        char line[64];
+        if(fgets(line, sizeof(line), stdin) == NULL) {
+            printf("Консольный ввод закрыт (EOF).\n");
+            *size = 0;
+            return EXC_INPUT_FAULT;
+        }
+        int parsed = 0;
+        if(readIntLine(line, &parsed)) {
+            *size = parsed;
+        } else {
             ++inputErrors;
             if(inputErrors >= 3) {
-                printf("Превышено количество неверных попыток ввода.");
+                printf("    .");
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
             printf("Необходимо вводить целое число. Повторите попытку.\n");
             continue;
         }
-        clearStdin();
-        //ОЧИСТКА БУФЕРА
 
-        if(*size < 1) {
+        if(*size < 1 || *size > MAX_MATRIX_SIZE) {
             ++inputErrors;
             if(inputErrors >= 3) {
                 printf("Превышено количество неверных попыток ввода.");
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
-            printf("Размер должен быть положительным. Повторите попытку.\n");
+            printf("Размер должен быть %d. Повторите попытку.\n", MAX_MATRIX_SIZE);
             continue;
         }
         break;

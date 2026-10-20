@@ -1,8 +1,33 @@
 #include "../include/io_lib.h"
+#include <ctype.h>
 
-void clearStdin() {
-    int c;
-    while((c = getchar()) != '\n' && c != EOF);
+int readIntLine(const char *line, int *out) {
+    int i = 0;
+    int numLen = 0;
+
+    while(line[i] == ' ' || line[i] == '\t') ++i;
+
+    if(line[i] == '-') ++i;
+
+    while(line[i] >= '0' && line[i] <= '9') {
+        ++i;
+        ++numLen;
+    }
+
+    if(numLen == 0) return 0;
+
+    while(line[i] == ' ' || line[i] == '\t') ++i;
+    if(line[i] != '\0' && line[i] != '\r' && line[i] != '\n') return 0;
+
+    *out = 0;
+    i = 0;
+    while(line[i] != '\0') {
+        if(line[i] >= '0' && line[i] <= '9') {
+            *out = *out * 10 + (line[i] - '0');
+        }
+        ++i;
+    }
+    return 1;
 }
 
 int fprint2DSqrMatrix(FILE *stream, struct Matrix2D *matrix) {
@@ -31,7 +56,6 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
         return ERR_NULL_ARGUMENT;
     }
 
-    //free(matrix->array);
     if(matrix->array != NULL) {
         free2DSqrArray(matrix->size, matrix->array);
         matrix->array = NULL;
@@ -50,6 +74,7 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
             curVal = 0;
         }
         char *temp_ptr = append_char(line_array, &line_array_size, (char)curVal);
+
         if(temp_ptr == NULL) {  // realloc
             free(line_array);
             return ERR_MEM_ALLOC;
