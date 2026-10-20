@@ -3,6 +3,8 @@
 // Заголовочные файлы
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+#include <Windows.h>
 #include <conio.h>
 #include <stdbool.h>
 
@@ -17,12 +19,18 @@ int main()
 {
 // Преждевременные операции подготовки
     // Настройка кодировок
-    ru_locale_init();
+    setlocale(LC_ALL, "Russian");
+    setlocale(LC_NUMERIC, "C");
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
 
     //Объявление переменных и флагов
     int inputMethod = NOT_SET, err = 0;
     FILE* inStream = NULL;
     struct Matrix2D matrix;
+    matrix.array = NULL;
+    matrix.size = 0;
     bool inLoop = true;
 
 // Логика программы
@@ -41,7 +49,11 @@ int main()
                "\t3 - Случайно\n"
                "\t0 - Выйти\n"
                "Ваш выбор: ");
-        scanf("%d", &inputMethod);
+        if(scanf("%d", &inputMethod) != 1) {
+            clearStdin();
+            printf("Необходимо вводить число от 0 до 3.\n");
+            continue;
+        }
         clearStdin(); //ОЧИСТКА БУФЕРА
         printf("\n");
 
@@ -54,7 +66,7 @@ int main()
                 if(err != 0) {
                     return err;
                 }
-                printf("ARR SIZE: %d\n", matrix.size);
+                printf("Размер матрицы: %d\n", matrix.size);
                 break;
             //----------------------------------
             case READ_FILE: // Из файла
@@ -69,7 +81,7 @@ int main()
                 if(err != 0) {
                     return err;
                 }
-                printf("ARR SIZE: %d\n", matrix.size);
+                printf("Размер матрицы: %d\n", matrix.size);
                 break;
             //----------------------------------
             case NOT_SET: //----------ВЫХОД ИЗ ЦИКЛА ПРОГРАММЫ----------
@@ -92,11 +104,20 @@ int main()
 
                 for(int i = 0; i < matrix.size; ++i) {
                     for(int j = 0; j < matrix.size; ++j) {
-                        printf("Введите элемент под индексом [%d][%d]: ", i, j);
-                        int val;
-                        scanf("%d", &val);
+                        int val = -1;
+                        while(val != 0 && val != 1) {
+                            printf("    [%d][%d] (0 или 1): ", i, j);
+                            if(scanf("%d", &val) != 1) {
+                                clearStdin();
+                                val = -1;   //
+                                continue;
+                            }
+                            clearStdin();
+                            if(val != 0 && val != 1) {
+                                printf("Числа только 0 или 1! Повторите элемент [%d][%d].\n", i, j);
+                            }
+                        }
                         matrix.array[i][j] = (char)val;
-                        clearStdin();
                     }
                 }
 
@@ -135,9 +156,10 @@ int main()
 
             break;
         }
-        if(inStream != stdin) {
+        if(inStream != NULL && inStream != stdin) {
             fclose(inStream);
         }
+        inStream = NULL;
         printf("\nПродолжить выполнение:\n");
         _getch();
         if (matrix.array != NULL) {
@@ -160,7 +182,6 @@ int main()
         printf("(Конец программы)\n");
         _getch();
         system("cls");
-        //break;
     }
 
     return 0;

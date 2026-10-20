@@ -66,12 +66,24 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
         return ERR_BAD_ARGUMENT;
     }
 
-    srand(time(NULL));
+    static int srand_done = 0;
+    if(!srand_done) {
+        srand((unsigned)time(NULL));
+        srand_done = 1;
+    }
+
     for(int i = 0; i < matrix->size; ++i) {
         for(int j = 0; j < matrix->size; ++j) {
             matrix->array[i][j] = rand() % 2;
         }
     }
+    for(int i = 0; i < matrix->size; ++i) {
+        matrix->array[i][i] = 0;
+        for(int j = 0; j < i; ++j) {
+            matrix->array[i][j] = 0;
+        }
+    }
+
     return 0;
 }
 

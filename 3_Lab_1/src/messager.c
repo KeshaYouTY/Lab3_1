@@ -1,6 +1,7 @@
 #include <locale.h>
 #include <Windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "../include/messanger.h"
 #include "../include/io_lib.h"
@@ -42,7 +43,17 @@ int inline askMatrixSize(int* size) {
     int inputErrors = 0;
     while(1) {
         printf("Введите размер матрицы: ");
-        scanf("%d", size);
+        if(scanf("%d", size) != 1) {
+            clearStdin();
+            ++inputErrors;
+            if(inputErrors >= 3) {
+                printf("Превышено количество неверных попыток ввода.");
+                *size = 0;
+                return EXC_INPUT_FAULT;
+            }
+            printf("Необходимо вводить целое число. Повторите попытку.\n");
+            continue;
+        }
         clearStdin();
         //ОЧИСТКА БУФЕРА
 

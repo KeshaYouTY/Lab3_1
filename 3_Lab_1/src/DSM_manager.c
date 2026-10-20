@@ -56,3 +56,22 @@ bool isTransitive(struct Matrix2D *matrix) {
     }
     return true;
 }
+
+bool isLinearOrder(struct Matrix2D *matrix) {
+    if(matrix == NULL || matrix->array == NULL) {
+        return false;
+    }
+    if(matrix->size < 1) {
+        return false;
+    }
+
+    for(int i = 0; i < matrix->size; ++i) {
+        for(int j = i + 1; j < matrix->size; ++j) {
+            if(matrix->array[i][j] == 0 && matrix->array[j][i] == 0) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}

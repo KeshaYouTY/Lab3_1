@@ -8,4 +8,5 @@
 bool isAntireflexive(struct Matrix2D *matrix);
 bool isAntisymmetric(struct Matrix2D *matrix);
 bool isTransitive(struct Matrix2D *matrix);
+bool isLinearOrder(struct Matrix2D *matrix);
 #endif // DSM_MANAGER_H_INCLUDED

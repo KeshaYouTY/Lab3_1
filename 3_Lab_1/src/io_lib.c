@@ -1,5 +1,4 @@
 #include "../include/io_lib.h"
-#include <math.h>
 
 void clearStdin() {
     int c;
@@ -29,38 +28,35 @@ int fprint2DSqrMatrix(FILE *stream, struct Matrix2D *matrix) {
 
 int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
     if(file == NULL || matrix == NULL) {
-        //fprintf(stderr, "\n:  .");
         return ERR_NULL_ARGUMENT;
     }
 
     //free(matrix->array);
-    matrix->array = NULL;
+    if(matrix->array != NULL) {
+        free2DSqrArray(matrix->size, matrix->array);
+        matrix->array = NULL;
+    }
     matrix->size = 0;
 
     //      1D
-    int curChar;
-    int line_array_size = 1;
-    char *line_array = (char*)calloc(1, sizeof(char));
-    if(line_array == NULL) {
-        return ERR_MEM_ALLOC;
-    }
+    int curVal;
+    int line_array_size = 0;
+    char *line_array = NULL;
 
+        while(fscanf(file, "%d", &curVal) == 1) {
 
-    if(fscanf(file, "%d", &curChar) != 1) {
-        free(line_array);
-        return ERR_FILE_EMPTY;
-    }
-    line_array[0] = ((curChar == 0 || curChar == 1) ? curChar : 0);
-
-    //
-    while(fscanf(file, "%d", &curChar) == 1) {
-        char *temp_ptr = append_char(line_array, &line_array_size,(curChar == 0 || curChar == 1) ? curChar : 0);
-        if(temp_ptr == NULL) {  // realloc  ,
+        if(curVal != 0 && curVal != 1) {
+            printf("\n!!! В файле найден элемент '%d' (должно быть 0 или 1), он заменён на 0.\n", curVal);
+            curVal = 0;
+        }
+        char *temp_ptr = append_char(line_array, &line_array_size, (char)curVal);
+        if(temp_ptr == NULL) {  // realloc
             free(line_array);
             return ERR_MEM_ALLOC;
         }
         line_array = temp_ptr;
     }
+
     if(line_array_size < 1) {
         free(line_array);
         return ERR_FILE_EMPTY;
@@ -71,10 +67,17 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
     //matrix->size = ceil(sqrt(line_array_size));
     {
         int size = 1;
-        while (size * size < line_array_size) ++size;
+        while(size * size < line_array_size) ++size;
+        if(size * size != line_array_size) {
+            printf("\n!!! В файле %d элементов, а должно быть точно квадратом"
+                   " (матрица квадратная n x n). Ближайший подходящий размер: %d x %d = %d.\n",
+                   line_array_size, size, size, size * size);
+            free(line_array);
+            return ERR_BAD_ARGUMENT;
+        }
         matrix->size = size;
     }
-    //printf("\nSize: %d\nSize2D: %d", line_array_size, size2D);
+
 
     matrix->array = alloc2DSqrArrayV(matrix->size);
     if(matrix->array == NULL) {
@@ -84,13 +87,7 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
 
     int k = 0;
     for(int i = 0; i < matrix->size; ++i) {
-        if(!(k < line_array_size)) {
-            break;
-        }
         for(int j = 0; j < matrix->size; ++j) {
-            if(!(k < line_array_size)) {
-                break;
-            }
             matrix->array[i][j] = line_array[k];
             ++k;
         }
