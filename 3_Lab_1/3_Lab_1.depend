@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1792501791 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\dsm_manager.c
+1792590986 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\dsm_manager.c
+	<stdlib.h>
 	"../include/DSM_manager.h"
 
-1792501804 d:\Загрузки\3_lab_1-main\3_lab_1\include\dsm_manager.h
+1792591070 d:\Загрузки\3_lab_1-main\3_lab_1\include\dsm_manager.h
 	"usr_structs.h"
 	"usr_constants.h"
 	<stdbool.h>
@@ -10,22 +11,22 @@
 
 1792394419 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_structs.h
 
-1792505109 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_constants.h
+1792593919 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_constants.h
 
-1792586242 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
+1792593536 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
 	"../include/io_lib.h"
 	<ctype.h>
 
-1792508396 d:\Загрузки\3_lab_1-main\3_lab_1\include\io_lib.h
+1792593215 d:\Загрузки\3_lab_1-main\3_lab_1\include\io_lib.h
 	"../include/usr_structs.h"
 	"../include/usr_constants.h"
 	"../include/array_lib.h"
 	<stdio.h>
 	<stdlib.h>
 
-1792586203 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
+1792593388 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
 
-1792585148 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
+1792594026 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
 	<locale.h>
 	<stdio.h>
 	<stdlib.h>
@@ -38,14 +39,14 @@
 1792394419 d:\Загрузки\3_lab_1-main\3_lab_1\include\messanger.h
 	<stdio.h>
 
-1792586173 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\array_lib.c
+1792593436 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\array_lib.c
 	<stdlib.h>
 	<time.h>
 	"../include/usr_constants.h"
 	"../include/usr_structs.h"
 	"../include/array_lib.h"
 
-1792586332 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
+1792591041 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

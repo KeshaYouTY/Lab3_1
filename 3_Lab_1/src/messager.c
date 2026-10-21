@@ -8,35 +8,55 @@
 #include "../include/io_lib.h"
 #include "../include/usr_constants.h"
 
+static int isAttemptsExceeded(int *inputErrors) {
+    ++(*inputErrors);
+    if(*inputErrors >= MAX_INPUT_ATTEMPTS) {
+        printf("\nПревышено количество неверных попыток ввода.\n");
+        return 1;
+    }
+    return 0;
+}
 
-int inline askFileName(FILE **filePtr) {
+int askFileName(FILE **filePtr) {
     int inputErrors = 0;
     while(1) {
-        printf("Введите найзвание файла (255 симв.): ");
-        char filename[256];
+        printf("Введите название файла (до %d симв.): ", MAX_FILENAME_LEN);
+        char filename[MAX_FILENAME_LEN + 2];
         if(fgets(filename, sizeof(filename), stdin) == NULL) {
             printf("Консольный ввод закрыт (EOF).\n");
             *filePtr = NULL;
             return EXC_INPUT_FAULT;
         }
+
+        if(strchr(filename, '\n') == NULL && !feof(stdin)) {
+            clearInputBuffer();
+            printf("Имя файла длиннее %d символов. Повторите попытку.\n", MAX_FILENAME_LEN);
+            if(isAttemptsExceeded(&inputErrors)) {
+                *filePtr = NULL;
+                return EXC_INPUT_FAULT;
+            }
+            continue;
+        }
+
         size_t len = strlen(filename);
         while(len > 0 && isspace((unsigned char)filename[len-1])) --len;
         filename[len] = '\0';
         if(len == 0) {
             printf("Имя файла пустое. Повторите попытку.\n");
-            continue;
-        }
-
-        //ОЧИСТКА БУФЕРА
-        *filePtr = fopen(filename, "r");
-        if(*filePtr == NULL) {
-            ++inputErrors;
-            if(inputErrors >= 3) {
-                printf("Превышено количество неверных попыток ввода.");
+            if(isAttemptsExceeded(&inputErrors)) {
                 *filePtr = NULL;
                 return EXC_INPUT_FAULT;
             }
+            continue;
+        }
+
+        *filePtr = fopen(filename, "r");
+        if(*filePtr == NULL) {
             printf("Такого файла не существует. Повторите попытку.\n");
+            if(isAttemptsExceeded(&inputErrors)) {
+                *filePtr = NULL;
+                return EXC_INPUT_FAULT;
+            }
             continue;
         }
         break;
@@ -45,7 +65,7 @@ int inline askFileName(FILE **filePtr) {
     return 0;
 }
 
-int inline askMatrixSize(int* size) {
+int askMatrixSize(int* size) {
     int inputErrors = 0;
     while(1) {
         printf("Введите размер матрицы: ");
@@ -58,29 +78,29 @@ int inline askMatrixSize(int* size) {
         int parsed = 0;
         if(line[0] == '\0' || line[0] == '\n' || line[0] == '\r') {
             printf("Пустая строка. Повторите попытку.\n");
+            if(isAttemptsExceeded(&inputErrors)) {
+                *size = 0;
+                return EXC_INPUT_FAULT;
+            }
             continue;
         }
         if(readIntLine(line, &parsed)) {
             *size = parsed;
         } else {
-            ++inputErrors;
-            if(inputErrors >= 3) {
-                printf("Превышено количество неверных попыток ввода.");
+            printf("Необходимо вводить целое число. Повторите попытку.\n");
+            if(isAttemptsExceeded(&inputErrors)) {
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
-            printf("Необходимо вводить целое число. Повторите попытку.\n");
             continue;
         }
 
         if(*size < 1 || *size > MAX_MATRIX_SIZE) {
-            ++inputErrors;
-            if(inputErrors >= 3) {
-                printf("Превышено количество неверных попыток ввода.");
+            printf("Размер должен быть от 1 до %d. Повторите попытку.\n", MAX_MATRIX_SIZE);
+            if(isAttemptsExceeded(&inputErrors)) {
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
-            printf("Размер должен быть от 1 до %d. Повторите попытку.\n", MAX_MATRIX_SIZE);
             continue;
         }
         break;

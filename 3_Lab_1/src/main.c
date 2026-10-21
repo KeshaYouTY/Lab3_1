@@ -43,7 +43,7 @@ int main()
                "=                       ИНИЦИАЛИЗАЦИЯ МАТРИЦЫ ЗАВИСИМОСТЕЙ                     =\n"
                "================================================================================\n\n");
 
-        printf("Выберете тип источника:\n"
+        printf("Выберите тип источника:\n"
                "\t1 - Клавиатура\n"
                "\t2 - Файл\n"
                "\t3 - Случайно\n"
@@ -194,9 +194,46 @@ int main()
         //system("cls");
         //------------------------------------ Задание ------------------------------------
 
-        printf("Матрица антирефлексивна? : %d\n", isAntireflexive(&matrix));
-        printf("Матрица антисимметрична? : %d\n", isAntisymmetric(&matrix));
-        printf("Матрица транзитивна? : %d\n", isTransitive(&matrix));
+        bool isAR = isAntireflexive(&matrix);
+        bool isAS = isAntisymmetric(&matrix);
+        bool isTR = isTransitive(&matrix);
+
+        printf("Матрица антирефлексивна? : %s\n", isAR ? "да" : "нет");
+        printf("Матрица антисимметрична? : %s\n", isAS ? "да" : "нет");
+        printf("Матрица транзитивна?     : %s\n", isTR ? "да" : "нет");
+
+        if(!(isAR && isAS && isTR)) {
+            printf("\nОтношение не является строгим частичным порядком.\n"
+                   "Регламент пуска построить нельзя, проверьте матрицу.\n");
+        } else {
+
+            bool isLinear = isLinearOrder(&matrix);
+            printf("Матрица связна (линейна)? : %s\n", isLinear ? "да" : "нет");
+
+            if(isLinear) {
+                printf("\nПорядок уже линейный, сортировка не требуется.\n"
+                       "Единственный порядок пуска:\n");
+            } else {
+                printf("\nЕсть параллельные системы, строю регламент пуска:\n");
+            }
+
+            int *order = (int*)malloc(matrix.size * sizeof(int));
+            if(order == NULL) {
+                printf("Не хватило памяти.\n");
+            } else {
+                int sortErr = topoSortTarjan(&matrix, order);
+                if(sortErr != 0) {
+                    printf("Сортировка не удалась: код %d.\n", sortErr);
+                } else {
+                    printf("\n===== РЕГЛАМЕНТ ПУСКА =====\n");
+                    for(int s = 0; s < matrix.size; ++s) {
+                        printf("Шаг %d: запустить систему x%d\n", s + 1, order[s] + 1);
+                    }
+                    printf("===========================\n");
+                }
+                free(order);
+            }
+        }
 
         freeMatrix2D(&matrix);
 

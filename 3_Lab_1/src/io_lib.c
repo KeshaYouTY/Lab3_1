@@ -34,6 +34,11 @@ int readIntLine(const char *line, int *out) {
     return 1;
 }
 
+void clearInputBuffer(void) {
+    int c;
+    while((c = getchar()) != '\n' && c != EOF) { }
+}
+
 int fprint2DSqrMatrix(FILE *stream, struct Matrix2D *matrix) {
     if(stream == NULL || matrix == NULL || matrix->array == NULL) {
         return ERR_NULL_ARGUMENT;
@@ -70,8 +75,15 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
 
         while(fscanf(file, "%d", &curVal) == 1) {
 
+        if(line_array_size >= MAX_MATRIX_SIZE * MAX_MATRIX_SIZE) {
+            printf("\nВ файле слишком много элементов (максимум %d x %d).\n",
+                   MAX_MATRIX_SIZE, MAX_MATRIX_SIZE);
+            free(line_array);
+            return ERR_BAD_ARGUMENT;
+        }
+
         if(curVal != 0 && curVal != 1) {
-            printf("\n!!! В файле найден элемент '%d' (должно быть 0 или 1), он заменён на 0.\n", curVal);
+            printf("\nВ файле найден элемент '%d' (должно быть 0 или 1), он заменён на 0.\n", curVal);
             curVal = 0;
         }
         char *temp_ptr = append_char(line_array, &line_array_size, (char)curVal);
@@ -83,19 +95,23 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
         line_array = temp_ptr;
     }
 
+    if(!feof(file)) {
+        printf("\nВ файле встретился нечисловой символ.\n");
+        free(line_array);
+        return ERR_BAD_ARGUMENT;
+    }
+
     if(line_array_size < 1) {
         free(line_array);
         return ERR_FILE_EMPTY;
     }
 
 
-    // .   -    2D ,
-    //matrix->size = ceil(sqrt(line_array_size));
     {
         int size = 1;
         while(size * size < line_array_size) ++size;
         if(size * size != line_array_size) {
-            printf("\n!!! В файле %d элементов, а должно быть точно квадратом"
+            printf("\nВ файле %d элементов, а должно быть точно квадратом"
                    " (матрица квадратная n x n). Ближайший подходящий размер: %d x %d = %d.\n",
                    line_array_size, size, size, size * size);
             free(line_array);

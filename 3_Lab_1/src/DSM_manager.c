@@ -1,4 +1,48 @@
+#include <stdlib.h>
+
 #include "../include/DSM_manager.h"
+
+#define MARK_NONE  0
+#define MARK_TEMP  1
+#define MARK_PERM  2
+
+static int tarjanVisit(const struct Matrix2D *m, int v, char *mark,
+                       int *order, int *pos) {
+    if(mark[v] == MARK_PERM) return 0;
+    if(mark[v] == MARK_TEMP) return ERR_CYCLE;
+
+    mark[v] = MARK_TEMP;
+
+    for(int to = 0; to < m->size; ++to) {
+        if(m->array[v][to] == 1) {
+            int err = tarjanVisit(m, to, mark, order, pos);
+            if(err != 0) return err;
+        }
+    }
+
+    mark[v] = MARK_PERM;
+    order[--(*pos)] = v;
+    return 0;
+}
+
+int topoSortTarjan(const struct Matrix2D *m, int *order) {
+    if(m == NULL || m->array == NULL || order == NULL) return ERR_NULL_ARGUMENT;
+    if(m->size < 1) return ERR_BAD_ARGUMENT;
+
+    char *mark = (char*)calloc(m->size, sizeof(char));
+    if(mark == NULL) return ERR_MEM_ALLOC;
+
+    int pos = m->size;
+    int err = 0;
+    for(int v = 0; v < m->size && err == 0; ++v) {
+        if(mark[v] == MARK_NONE) {
+            err = tarjanVisit(m, v, mark, order, &pos);
+        }
+    }
+
+    free(mark);
+    return err;
+}
 
 bool isAntireflexive(struct Matrix2D *matrix) {
     if(matrix == NULL || matrix->array == NULL) {

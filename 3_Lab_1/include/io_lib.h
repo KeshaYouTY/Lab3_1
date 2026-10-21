@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 int readIntLine(const char *line, int *out);
+void clearInputBuffer(void);
 int fprint2DSqrMatrix(FILE *stream, struct Matrix2D *matrix);
 int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix);
 #endif // IO_LIB_H_INCLUDED

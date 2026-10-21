@@ -3,7 +3,7 @@
 #include "../include/usr_constants.h"
 #include "../include/usr_structs.h"
 #include "../include/array_lib.h"
-int alloc2DSqrArray(int n, char*** array2D) {
+/*int alloc2DSqrArray(int n, char*** array2D) {
     if(array2D == NULL) return ERR_NULL_ARGUMENT;
     if(n <= 0) return ERR_BAD_ARGUMENT;
 
@@ -24,7 +24,7 @@ int alloc2DSqrArray(int n, char*** array2D) {
         }
     }
     return 0;
-}
+}*/
 
 char **alloc2DSqrArrayV(int n) {
     if(n <= 0) return NULL;
@@ -60,10 +60,13 @@ int free2DSqrArray(int n, char** array2D) {
 
 int freeMatrix2D(struct Matrix2D *matrix) {
 
+    if(matrix == NULL) return ERR_NULL_ARGUMENT;
+
     if(matrix->array != NULL) {
         free2DSqrArray(matrix->size, matrix->array);
         matrix->array = NULL;
     }
+    return 0;
 }
 
 int randomFill2DMatrix(struct Matrix2D *matrix) {
@@ -74,7 +77,12 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
         return ERR_BAD_ARGUMENT;
     }
 
-    srand(time(NULL));
+    static int seeded = 0;
+    if(!seeded) {
+        srand(time(NULL));
+        seeded = 1;
+    }
+
     for(int i = 0; i < matrix->size; ++i) {
         for(int j = 0; j < matrix->size; ++j) {
             matrix->array[i][j] = rand() % 2;
@@ -84,6 +92,7 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
     matrix->array[i][i] = 0;
     }
     return 0;
+
 }
 
 char *append_char(char *arr, int *size, char value) {
