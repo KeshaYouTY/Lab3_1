@@ -28,14 +28,9 @@ int readIntLine(const char *line, int *out) {
     while(line[i] == ' ' || line[i] == '\t') ++i;
     if(line[i] != '\0' && line[i] != '\r' && line[i] != '\n') return 0;
 
-    *out = 0;
-    i = 0;
-    while(line[i] != '\0') {
-        if(line[i] >= '0' && line[i] <= '9') {
-            *out = *out * 10 + (line[i] - '0');
-        }
-        ++i;
-    }
+    if(negative) value = -value;
+    *out = (int)value;
+
     return 1;
 }
 

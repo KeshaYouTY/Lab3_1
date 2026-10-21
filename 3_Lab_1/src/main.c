@@ -26,7 +26,7 @@ int main()
 
 
     //Объявление переменных и флагов
-    int inputMethod = NOT_SET, err = 0;
+    int inputMethod = -1, err = 0;
     FILE* inStream = NULL;
     struct Matrix2D matrix = { NULL, 0 }; ;
     matrix.array = NULL;
@@ -56,12 +56,11 @@ int main()
                 printf("Консольный ввод закрыт (EOF).\n");
                 return EXC_INPUT_FAULT;
             }
-            if(readIntLine(line, &parsed)) {
-                inputMethod = parsed;
-            } else {
+            if(!readIntLine(line, &parsed) || parsed < 0 || parsed > 3) {
                 printf("Необходимо вводить число от 0 до 3.\n");
                 continue;
             }
+            inputMethod = parsed;
         }
 
         printf("\n");
@@ -180,7 +179,7 @@ int main()
                 printf("\nВведённая матрица:\n");
                 fprint2DSqrMatrix(stdout, &matrix);
             } else {
-                printf("NULL");
+                printf("NULL\n");
             }
 
             break;
@@ -191,7 +190,11 @@ int main()
         }
 
         inStream = NULL;
-        printf("\nПродолжить выполнение:\n");
+        if(matrix.array == NULL) {
+            printf("Матрица пустая. Пропуск анализа.\n");
+            continue;
+        }
+        printf("\nНажмите любую кнопку для продолжения...\n");
         _getch();
 
         //system("cls");

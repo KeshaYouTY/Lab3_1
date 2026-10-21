@@ -12,7 +12,7 @@
 
 1792505109 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_constants.h
 
-1792508287 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
+1792584422 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
 	"../include/io_lib.h"
 	<ctype.h>
 
@@ -25,11 +25,9 @@
 
 1792394419 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
 
-1792508208 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
+1792585148 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
 	<locale.h>
-	<Windows.h>
 	<stdio.h>
-	<stdlib.h>
 	<stdlib.h>
 	<ctype.h>
 	<string.h>
@@ -47,7 +45,7 @@
 	"../include/usr_structs.h"
 	"../include/array_lib.h"
 
-1792508384 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
+1792585078 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

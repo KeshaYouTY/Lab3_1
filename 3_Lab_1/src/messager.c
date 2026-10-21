@@ -20,7 +20,8 @@ int inline askFileName(FILE **filePtr) {
             return EXC_INPUT_FAULT;
         }
         size_t len = strlen(filename);
-        while(len > 0 && (filename[len-1] == '\n' || filename[len-1] == '\r')) --len;
+        while(len > 0 && isspace((unsigned char)filename[len-1])) --len;
+        filename[len] = '\0';
         if(len == 0) {
             printf("Имя файла пустое. Повторите попытку.\n");
             continue;
@@ -55,7 +56,7 @@ int inline askMatrixSize(int* size) {
             return EXC_INPUT_FAULT;
         }
         int parsed = 0;
-        if(line[0] == '\n' || line[0] == '\r') {
+        if(line[0] == '\0' || line[0] == '\n' || line[0] == '\r') {
             printf("Пустая строка. Повторите попытку.\n");
             continue;
         }
