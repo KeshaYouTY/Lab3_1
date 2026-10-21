@@ -1,7 +1,5 @@
 #include <locale.h>
-#include <Windows.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -24,12 +22,6 @@ int inline askFileName(FILE **filePtr) {
         size_t len = strlen(filename);
         while(len > 0 && (filename[len-1] == '\n' || filename[len-1] == '\r')) --len;
         if(len == 0) {
-            ++inputErrors;
-            if(inputErrors >= 3) {
-                printf("    .");
-                *filePtr = NULL;
-                return EXC_INPUT_FAULT;
-            }
             printf("Имя файла пустое. Повторите попытку.\n");
             continue;
         }
@@ -63,12 +55,16 @@ int inline askMatrixSize(int* size) {
             return EXC_INPUT_FAULT;
         }
         int parsed = 0;
+        if(line[0] == '\n' || line[0] == '\r') {
+            printf("Пустая строка. Повторите попытку.\n");
+            continue;
+        }
         if(readIntLine(line, &parsed)) {
             *size = parsed;
         } else {
             ++inputErrors;
             if(inputErrors >= 3) {
-                printf("    .");
+                printf("Превышено количество неверных попыток ввода.");
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
@@ -83,7 +79,7 @@ int inline askMatrixSize(int* size) {
                 *size = 0;
                 return EXC_INPUT_FAULT;
             }
-            printf("Размер должен быть %d. Повторите попытку.\n", MAX_MATRIX_SIZE);
+            printf("Размер должен быть от 1 до %d. Повторите попытку.\n", MAX_MATRIX_SIZE);
             continue;
         }
         break;

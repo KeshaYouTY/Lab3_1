@@ -4,12 +4,21 @@
 int readIntLine(const char *line, int *out) {
     int i = 0;
     int numLen = 0;
+    long long value = 0;
+    int negative = 0;
 
     while(line[i] == ' ' || line[i] == '\t') ++i;
 
-    if(line[i] == '-') ++i;
+    if(line[i] == '-') {
+        negative = 1;
+        ++i;
+    }
 
     while(line[i] >= '0' && line[i] <= '9') {
+        value = value * 10 + (line[i] - '0');
+        if(value > 2000000000LL) {
+            return 0;
+        }
         ++i;
         ++numLen;
     }

@@ -194,25 +194,6 @@ int main()
         printf("\nПродолжить выполнение:\n");
         _getch();
 
-       /* bool ar = isAntireflexive(&matrix);
-        bool as = isAntisymmetric(&matrix);
-        bool tr = isTransitive(&matrix);
-        bool lin = isLinearOrder(&matrix);
-
-        printf(" ? : %s\n", ar ? "Да" : "Нет");
-        printf(" ? : %s\n", as ? "Да" : "Нет");
-        printf(" ?     : %s\n", tr ? "Да" : "Нет");
-        printf("  (   )? : %s\n", lin ? "Да" : "Нет");
-        if(ar && as && tr) {
-            printf("Матрица задаёт отношение строгого математического порядка.\n");
-        } else {
-            printf("Матрица НЕ задаёт конкретного отношения порядка!\n");
-        }*/
-
-        if (matrix.array != NULL) {
-            free2DSqrArray(matrix.size, matrix.array);
-            matrix.array = NULL;
-        }
         //system("cls");
         //------------------------------------ Задание ------------------------------------
 
@@ -220,10 +201,10 @@ int main()
         printf("Матрица антисимметрична? : %d\n", isAntisymmetric(&matrix));
         printf("Матрица транзитивна? : %d\n", isTransitive(&matrix));
 
-
-
-
-
+        if (matrix.array != NULL) {
+            free2DSqrArray(matrix.size, matrix.array);
+            matrix.array = NULL;
+        }
 
 
         printf("(Конец программы)\n");
