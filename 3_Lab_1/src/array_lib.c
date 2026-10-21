@@ -58,6 +58,17 @@ int free2DSqrArray(int n, char** array2D) {
     return 0;
 }   //Вызывающий сам должен заNULLять ptr??
 
+int freeMatrix2D(struct Matrix2D *matrix) {
+    if(matrix == NULL) return ERR_NULL_ARGUMENT;
+
+    if(matrix->array != NULL) {
+        free2DSqrArray(matrix->size, matrix->array);
+        matrix->array = NULL;
+    }
+    matrix->size = 0;
+    return 0;
+}
+
 int randomFill2DMatrix(struct Matrix2D *matrix) {
     if(matrix == NULL || matrix->array == NULL) {
         return ERR_NULL_ARGUMENT;
@@ -66,24 +77,15 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
         return ERR_BAD_ARGUMENT;
     }
 
-    static int srand_done = 0;
-    if(!srand_done) {
-        srand((unsigned)time(NULL));
-        srand_done = 1;
-    }
-
+    srand(time(NULL));
     for(int i = 0; i < matrix->size; ++i) {
-        for(int j = i + 1; j < matrix->size; ++j) {
+        for(int j = 0; j < matrix->size; ++j) {
             matrix->array[i][j] = rand() % 2;
         }
     }
     for(int i = 0; i < matrix->size; ++i) {
-        matrix->array[i][i] = 0;
-        for(int j = 0; j < i; ++j) {
-            matrix->array[i][j] = 0;
-        }
+    matrix->array[i][i] = 0;
     }
-
     return 0;
 }
 

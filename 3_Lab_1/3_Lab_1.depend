@@ -12,7 +12,7 @@
 
 1792505109 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_constants.h
 
-1792584422 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
+1792586242 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
 	"../include/io_lib.h"
 	<ctype.h>
 
@@ -23,7 +23,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1792394419 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
+1792586203 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
 
 1792585148 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
 	<locale.h>
@@ -38,14 +38,14 @@
 1792394419 d:\Загрузки\3_lab_1-main\3_lab_1\include\messanger.h
 	<stdio.h>
 
-1792506015 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\array_lib.c
+1792586173 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\array_lib.c
 	<stdlib.h>
 	<time.h>
 	"../include/usr_constants.h"
 	"../include/usr_structs.h"
 	"../include/array_lib.h"
 
-1792585078 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
+1792586332 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

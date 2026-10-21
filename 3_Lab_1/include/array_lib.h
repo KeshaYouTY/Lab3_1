@@ -4,6 +4,7 @@
 int alloc2DSqrArray(int n, char*** array2D);
 char **alloc2DSqrArrayV(int n);
 int free2DSqrArray(int n, char** array2D);
+int freeMatrix2D(struct Matrix2D *matrix);
 int randomFill2DMatrix(struct Matrix2D *matrix);
 char *append_char(char *arr, int *size, char value);
 #endif // ARRAY_LIB_H_INCLUDED

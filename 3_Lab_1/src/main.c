@@ -105,10 +105,7 @@ int main()
         while(true) {
 
             if(inputMethod == KEYBOARD) {
-                if(matrix.array != NULL) {
-                    free2DSqrArray(matrix.size, matrix.array);
-                    matrix.array = NULL;
-                }
+                freeMatrix2D(&matrix);
 
                 matrix.array = alloc2DSqrArrayV(matrix.size);
                 if(matrix.array == NULL) {
@@ -124,8 +121,7 @@ int main()
                             int parsed = -1;
                             if(fgets(line, sizeof(line), stdin) == NULL) {
                                 printf("Консольный ввод закрыт (EOF).\n");
-                                free2DSqrArray(matrix.size, matrix.array);
-                                matrix.array = NULL;
+                                freeMatrix2D(&matrix);
                                 return EXC_INPUT_FAULT;
                             }
                             if(!readIntLine(line, &parsed)) {
@@ -156,10 +152,7 @@ int main()
                 //return 100;
 
             } else if(inputMethod == RANDOM) {
-                if(matrix.array != NULL) {
-                    free2DSqrArray(matrix.size, matrix.array);
-                    matrix.array = NULL;
-                }
+                freeMatrix2D(&matrix);
 
                 matrix.array = alloc2DSqrArrayV(matrix.size);
 
@@ -204,10 +197,7 @@ int main()
         printf("Матрица антисимметрична? : %d\n", isAntisymmetric(&matrix));
         printf("Матрица транзитивна? : %d\n", isTransitive(&matrix));
 
-        if (matrix.array != NULL) {
-            free2DSqrArray(matrix.size, matrix.array);
-            matrix.array = NULL;
-        }
+        freeMatrix2D(&matrix);
 
 
         printf("(Конец программы)\n");

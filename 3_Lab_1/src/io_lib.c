@@ -60,10 +60,7 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
         return ERR_NULL_ARGUMENT;
     }
 
-    if(matrix->array != NULL) {
-        free2DSqrArray(matrix->size, matrix->array);
-        matrix->array = NULL;
-    }
+    freeMatrix2D(matrix);
     matrix->size = 0;
 
     //      1D
