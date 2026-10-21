@@ -121,7 +121,8 @@ int main()
                             int parsed = -1;
                             if(fgets(line, sizeof(line), stdin) == NULL) {
                                 printf("Консольный ввод закрыт (EOF).\n");
-                                freeMatrix2D(&matrix);
+                                free2DSqrArray(matrix.size, matrix.array);
+                                matrix.array = NULL;
                                 return EXC_INPUT_FAULT;
                             }
                             if(!readIntLine(line, &parsed)) {

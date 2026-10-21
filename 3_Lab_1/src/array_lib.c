@@ -59,14 +59,11 @@ int free2DSqrArray(int n, char** array2D) {
 }   //Вызывающий сам должен заNULLять ptr??
 
 int freeMatrix2D(struct Matrix2D *matrix) {
-    if(matrix == NULL) return ERR_NULL_ARGUMENT;
 
     if(matrix->array != NULL) {
         free2DSqrArray(matrix->size, matrix->array);
         matrix->array = NULL;
     }
-    matrix->size = 0;
-    return 0;
 }
 
 int randomFill2DMatrix(struct Matrix2D *matrix) {
