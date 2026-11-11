@@ -1,0 +1,79 @@
+# depslib dependency file v1.0
+1794396698 source:d:\programming\3_lab_2\src\array_lib.c
+	<stdlib.h>
+	<time.h>
+	"../include/err_constants.h"
+	"../include/bool_func.h"
+	"../include/array_lib.h"
+
+1794401638 d:\programming\3_lab_2\include\err_constants.h
+
+1794396077 d:\programming\3_lab_2\include\bool_func.h
+
+1794399541 d:\programming\3_lab_2\include\array_lib.h
+	"bool_func.h"
+
+1794401042 source:d:\programming\3_lab_2\src\logic_manager.c
+	<stdio.h>
+	"../include/err_constants.h"
+	"../include/bool_func.h"
+	"../include/logic_manager.h"
+
+1794397817 d:\programming\3_lab_2\include\logic_manager.h
+	<stdio.h>
+	"bool_func.h"
+
+1794398790 source:d:\programming\3_lab_2\src\io_lib.c
+	<ctype.h>
+	<limits.h>
+	"../include/io_lib.h"
+	"../include/err_constants.h"
+	"../include/bool_func.h"
+	"../include/array_lib.h"
+
+1794397617 d:\programming\3_lab_2\include\io_lib.h
+	"../include/bool_func.h"
+	"../include/err_constants.h"
+	"../include/array_lib.h"
+	<stdio.h>
+	<stdlib.h>
+
+1794396673 source:d:\programming\3_lab_2\src\messager.c
+	<locale.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/err_constants.h"
+
+1794397682 d:\programming\3_lab_2\include\messanger.h
+	<stdio.h>
+
+1794401631 source:d:\programming\3_lab_2\src\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<Windows.h>
+	<conio.h>
+	<stdbool.h>
+	"../include/err_constants.h"
+	"../include/bool_func.h"
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/array_lib.h"
+	"../include/normal_forms.h"
+	"../include/logic_manager.h"
+
+1794397815 d:\programming\3_lab_2\include\normal_forms.h
+	<stdio.h>
+	"bool_func.h"
+
+1794397330 source:d:\programming\3_lab_2\src\normal_forms.c
+	<stdio.h>
+	"../include/err_constants.h"
+	"../include/bool_func.h"
+	"../include/logic_manager.h"
+	"../include/normal_forms.h"
+
