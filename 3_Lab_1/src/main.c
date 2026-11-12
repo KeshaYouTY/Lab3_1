@@ -26,6 +26,7 @@ int main()
     int inputMethod = -1, err = 0;
     int menuErrors = 0;
     FILE* inStream = NULL;
+    FILE* outStream = NULL;
     struct Matrix2D matrix = { NULL, 0 }; ;
     matrix.array = NULL;
     matrix.size = 0;
@@ -81,7 +82,7 @@ int main()
                 break;
 
             case READ_FILE: // Из файла
-                err = askFileName(&inStream);
+                err = askFileName(&inStream, "r");
                 if(err != 0) {
                     return err;
                 }
@@ -238,6 +239,30 @@ int main()
                 free(order);
             }
         }
+
+        // Запись результатов в файл
+        printf("\nФайл для сохранения результатов.\n");
+        err = askFileName(&outStream, "w");
+        if(err != 0) {
+            freeMatrix2D(&matrix);
+            return err;
+        }
+
+        fprintf(outStream, "Введённая матрица:\n");
+        err = fprint2DSqrMatrix(outStream, &matrix);
+        if(err == 0) {
+            fprintf(outStream, "\n");
+            err = fprintAnalysisResults(outStream, &matrix);
+        }
+
+        if(err != 0) {
+            printf("\nОшибка записи результатов в файл: код %d.\n", err);
+        } else {
+            printf("\nРезультаты записаны в файл.\n");
+        }
+
+        fclose(outStream);
+        outStream = NULL;
 
         freeMatrix2D(&matrix);
 

@@ -139,12 +139,15 @@
 
 1794447436 c:\users\kesha_res\desktop\3_lab_1\include\err_constants.h
 
-1792738338 source:c:\users\kesha_res\desktop\3_lab_1\src\io_lib.c
-	"../include/io_lib.h"
+1794468563 source:c:\users\kesha_res\desktop\3_lab_1\src\io_lib.c
 	<ctype.h>
 	<limits.h>
+	<stdbool.h>
+	<stdio.h>
+	"../include/io_lib.h"
+	"../include/DSM_manager.h"
 
-1792737960 c:\users\kesha_res\desktop\3_lab_1\include\io_lib.h
+1794468307 c:\users\kesha_res\desktop\3_lab_1\include\io_lib.h
 	"../include/matrix2D.h"
 	"../include/err_constants.h"
 	"../include/array_lib.h"
@@ -160,7 +163,7 @@
 	"../include/matrix2D.h"
 	"../include/array_lib.h"
 
-1792737960 source:c:\users\kesha_res\desktop\3_lab_1\src\messanger.c
+1794468250 source:c:\users\kesha_res\desktop\3_lab_1\src\messanger.c
 	<locale.h>
 	<stdio.h>
 	<stdlib.h>
@@ -170,7 +173,7 @@
 	"../include/io_lib.h"
 	"../include/err_constants.h"
 
-1794447201 c:\users\kesha_res\desktop\3_lab_1\include\messanger.h
+1794468164 c:\users\kesha_res\desktop\3_lab_1\include\messanger.h
 	<stdio.h>
 
 1794447391 source:c:\users\kesha_res\desktop\3_lab_1\src\main.c

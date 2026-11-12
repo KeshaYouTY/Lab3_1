@@ -1,6 +1,10 @@
-#include "../include/io_lib.h"
 #include <ctype.h>
 #include <limits.h>
+#include <stdbool.h>
+#include <stdio.h>
+
+#include "../include/io_lib.h"
+#include "../include/DSM_manager.h"
 
 int readIntLine(const char *line, int *out) {
     int i = 0;
@@ -138,4 +142,57 @@ int fillMatrixFromFile(FILE *file, struct Matrix2D *matrix) {
     free(line_array);
     return 0;
 
+}
+
+int fprintAnalysisResults(FILE *stream, struct Matrix2D *matrix) {
+    if(stream == NULL || matrix == NULL || matrix->array == NULL) {
+        return ERR_NULL_ARGUMENT;
+    }
+    if(matrix->size < 1) {
+        return ERR_BAD_ARGUMENT;
+    }
+
+    bool isAR = isAntireflexive(matrix);
+    bool isAS = isAntisymmetric(matrix);
+    bool isTR = isTransitive(matrix);
+
+    fprintf(stream, "Матрица антирефлексивна? : %s\n", isAR ? "да" : "нет");
+    fprintf(stream, "Матрица антисимметрична? : %s\n", isAS ? "да" : "нет");
+    fprintf(stream, "Матрица транзитивна?     : %s\n", isTR ? "да" : "нет");
+
+    if(!(isAR && isAS && isTR)) {
+        fprintf(stream, "\nОтношение не является строгим частичным порядком.\n"
+                        "Регламент пуска построить нельзя, проверьте матрицу.\n");
+        return 0;
+    }
+
+    bool isLinear = isLinearOrder(matrix);
+    fprintf(stream, "Матрица связна (линейна)? : %s\n", isLinear ? "да" : "нет");
+
+    if(isLinear) {
+        fprintf(stream, "\nПорядок уже линейный, сортировка не требуется.\n"
+                        "Единственный порядок пуска:\n");
+    } else {
+        fprintf(stream, "\nЕсть параллельные системы, необходима сортировка.\n");
+    }
+
+    int *order = (int*)malloc(matrix->size * sizeof(int));
+    if(order == NULL) {
+        return ERR_MEM_ALLOC;
+    }
+
+    int sortErr = topoSortTarjan(matrix, order);
+    if(sortErr != 0) {
+        free(order);
+        return sortErr;
+    }
+
+    fprintf(stream, "\n===== РЕГЛАМЕНТ ПУСКА =====\n");
+    for(int s = 0; s < matrix->size; ++s) {
+        fprintf(stream, "Шаг %d: запустить систему x%d\n", s + 1, order[s] + 1);
+    }
+    fprintf(stream, "===========================\n");
+
+    free(order);
+    return 0;
 }

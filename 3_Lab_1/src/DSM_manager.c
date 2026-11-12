@@ -6,8 +6,7 @@
 #define MARK_TEMP  1
 #define MARK_PERM  2
 
-static int tarjanVisit(const struct Matrix2D *m, int v, char *mark,
-                       int *order, int *pos) {
+static int tarjanVisit(const struct Matrix2D *m, int v, char *mark, int *order, int *pos) {
     if(mark[v] == MARK_PERM) return 0;
     if(mark[v] == MARK_TEMP) return ERR_CYCLE;
 

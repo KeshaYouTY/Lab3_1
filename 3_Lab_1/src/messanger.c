@@ -17,7 +17,7 @@ static int isAttemptsExceeded(int *inputErrors) {
     return 0;
 }
 
-int askFileName(FILE **filePtr) {
+int askFileName(FILE **filePtr, const char *mode) {
     int inputErrors = 0;
     while(1) {
         printf("Введите название файла (до %d симв.): ", MAX_FILENAME_LEN);
@@ -50,9 +50,9 @@ int askFileName(FILE **filePtr) {
             continue;
         }
 
-        *filePtr = fopen(filename, "r");
+        *filePtr = fopen(filename, mode);
         if(*filePtr == NULL) {
-            printf("Такого файла не существует. Повторите попытку.\n");
+            printf("%s", mode[0] == 'r' ? "Такого файла не существует. Повторите попытку.\n" : "Не удалось создать файл. Повторите попытку.\n");
             if(isAttemptsExceeded(&inputErrors)) {
                 *filePtr = NULL;
                 return EXC_INPUT_FAULT;
@@ -61,7 +61,7 @@ int askFileName(FILE **filePtr) {
         }
         break;
     }
-    printf("Файл найден.\n");
+    printf("%s", mode[0] == 'r' ? "Файл найден.\n" : "Файл для записи открыт.\n");
     return 0;
 }
 
