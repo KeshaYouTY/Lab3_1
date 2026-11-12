@@ -1,5 +1,6 @@
 #include "../include/io_lib.h"
 #include <ctype.h>
+#include <limits.h>
 
 int readIntLine(const char *line, int *out) {
     int i = 0;
@@ -16,7 +17,7 @@ int readIntLine(const char *line, int *out) {
 
     while(line[i] >= '0' && line[i] <= '9') {
         value = value * 10 + (line[i] - '0');
-        if(value > 2000000000LL) {
+        if(value > INT_MAX) {
             return 0;
         }
         ++i;

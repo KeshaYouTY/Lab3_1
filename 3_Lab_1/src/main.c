@@ -1,6 +1,3 @@
-
-
-// Заголовочные файлы
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -8,8 +5,8 @@
 #include <conio.h>
 #include <stdbool.h>
 
-#include "../include/usr_constants.h"
-#include "../include/usr_structs.h"
+#include "../include/err_constants.h"
+#include "../include/matrix2D.h"
 #include "../include/messanger.h"
 #include "../include/io_lib.h"
 #include "../include/array_lib.h"
@@ -27,6 +24,7 @@ int main()
 
     //Объявление переменных и флагов
     int inputMethod = -1, err = 0;
+    int menuErrors = 0;
     FILE* inStream = NULL;
     struct Matrix2D matrix = { NULL, 0 }; ;
     matrix.array = NULL;
@@ -37,7 +35,6 @@ int main()
 
 
     while (inLoop) {
-        //------------------------------------ИСТОЧНИК ВВОДА------------------------------------
         // Выбор источника ввода пользователем
         printf("================================================================================\n"
                "=                       ИНИЦИАЛИЗАЦИЯ МАТРИЦЫ ЗАВИСИМОСТЕЙ                     =\n"
@@ -58,8 +55,14 @@ int main()
             }
             if(!readIntLine(line, &parsed) || parsed < 0 || parsed > 3) {
                 printf("Необходимо вводить число от 0 до 3.\n");
+                ++menuErrors;
+                if(menuErrors >= MAX_INPUT_ATTEMPTS) {
+                    printf("\nПревышено количество неверных попыток ввода.\n");
+                    return EXC_INPUT_FAULT;
+                }
                 continue;
             }
+            menuErrors = 0;
             inputMethod = parsed;
         }
 
@@ -67,7 +70,7 @@ int main()
 
         //Switch-выражение по результатам выбора ввода
         switch(inputMethod) {
-            //----------------------------------
+
             case KEYBOARD:  // Клавиатура
                 inStream = stdin;
                 err = askMatrixSize(&matrix.size);
@@ -76,14 +79,14 @@ int main()
                 }
                 printf("Размер матрицы: %d\n", matrix.size);
                 break;
-            //----------------------------------
+
             case READ_FILE: // Из файла
                 err = askFileName(&inStream);
                 if(err != 0) {
                     return err;
                 }
                 break;
-            //----------------------------------
+
             case RANDOM: // Случайно
                 err = askMatrixSize(&matrix.size);
                 if(err != 0) {
@@ -91,17 +94,17 @@ int main()
                 }
                 printf("Размер матрицы: %d\n", matrix.size);
                 break;
-            //----------------------------------
-            case NOT_SET: //----------ВЫХОД ИЗ ЦИКЛА ПРОГРАММЫ----------
+
+            case EXIT_PROGRAM: //ВЫХОД ИЗ ЦИКЛА ПРОГРАММЫ
                 inLoop = false;
                 continue;
-            //----------------------------------
+            //
             default:
                 printf("Такого варианта нет.\n");
                 continue;
-            //----------------------------------
+
         }
-        //------------------------------------ПОЛУЧЕНИЕ ДАННЫХ / ЗАПОЛНЕНИЕ МАССИВА------------------------------------
+        //ПОЛУЧЕНИЕ ДАННЫХ / ЗАПОЛНЕНИЕ МАССИВА
         while(true) {
 
             if(inputMethod == KEYBOARD) {
@@ -166,7 +169,7 @@ int main()
                     return err;
                 }
             } else {
-                return -100;
+                return ERR_INTERNAL;
             }
 
             if(matrix.array != NULL) {
@@ -188,11 +191,11 @@ int main()
             printf("Матрица пустая. Пропуск анализа.\n");
             continue;
         }
-        printf("\nНажмите любую кнопку для продолжения...\n");
+        printf("\nНажмите любую кнопку для продолжения...\n\n");
         _getch();
 
         //system("cls");
-        //------------------------------------ Задание ------------------------------------
+        //Задание
 
         bool isAR = isAntireflexive(&matrix);
         bool isAS = isAntisymmetric(&matrix);
@@ -214,7 +217,8 @@ int main()
                 printf("\nПорядок уже линейный, сортировка не требуется.\n"
                        "Единственный порядок пуска:\n");
             } else {
-                printf("\nЕсть параллельные системы, строю регламент пуска:\n");
+                printf("\nЕсть параллельные системы, Необходима сортировка.\n\n"
+                       "Идёт сортировка, строится регламент пуска...\n");
             }
 
             int *order = (int*)malloc(matrix.size * sizeof(int));
@@ -238,7 +242,8 @@ int main()
         freeMatrix2D(&matrix);
 
 
-        printf("(Конец программы)\n");
+        printf("\nКонец программы.\n");
+        printf("Нажмите любую кнопку для продолжения...");
         _getch();
         system("cls");
     }

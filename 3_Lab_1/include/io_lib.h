@@ -1,8 +1,8 @@
 #ifndef IO_LIB_H_INCLUDED
 #define IO_LIB_H_INCLUDED
 
-#include "../include/usr_structs.h"
-#include "../include/usr_constants.h"
+#include "../include/matrix2D.h"
+#include "../include/err_constants.h"
 #include "../include/array_lib.h"
 #include <stdio.h>
 #include <stdlib.h>

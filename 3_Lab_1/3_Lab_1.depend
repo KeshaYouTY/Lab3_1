@@ -13,7 +13,7 @@
 
 1792593919 d:\Загрузки\3_lab_1-main\3_lab_1\include\usr_constants.h
 
-1792593536 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
+1792594129 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\io_lib.c
 	"../include/io_lib.h"
 	<ctype.h>
 
@@ -26,7 +26,7 @@
 
 1792593388 d:\Загрузки\3_lab_1-main\3_lab_1\include\array_lib.h
 
-1792594026 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
+1792594096 source:d:\Загрузки\3_lab_1-main\3_lab_1\src\messager.c
 	<locale.h>
 	<stdio.h>
 	<stdlib.h>
@@ -55,6 +55,133 @@
 	<stdbool.h>
 	"../include/usr_constants.h"
 	"../include/usr_structs.h"
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/array_lib.h"
+	"../include/DSM_manager.h"
+
+1792737929 source:c:\users\eez20\desktop\3_lab_1\src\array_lib.c
+	<stdlib.h>
+	<time.h>
+	"../include/err_constants.h"
+	"../include/matrix2D.h"
+	"../include/array_lib.h"
+
+1792737431 c:\users\eez20\desktop\3_lab_1\include\usr_constants.h
+
+1792734364 c:\users\eez20\desktop\3_lab_1\include\usr_structs.h
+
+1792734364 c:\users\eez20\desktop\3_lab_1\include\array_lib.h
+
+1792734364 source:c:\users\eez20\desktop\3_lab_1\src\dsm_manager.c
+	<stdlib.h>
+	"../include/DSM_manager.h"
+
+1792737961 c:\users\eez20\desktop\3_lab_1\include\dsm_manager.h
+	"matrix2D.h"
+	"err_constants.h"
+	<stdbool.h>
+	<stdlib.h>
+
+1792734364 source:c:\users\eez20\desktop\3_lab_1\src\io_lib.c
+	"../include/io_lib.h"
+	<ctype.h>
+
+1792737961 c:\users\eez20\desktop\3_lab_1\include\io_lib.h
+	"../include/matrix2D.h"
+	"../include/err_constants.h"
+	"../include/array_lib.h"
+	<stdio.h>
+	<stdlib.h>
+
+1792737961 source:c:\users\eez20\desktop\3_lab_1\src\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<Windows.h>
+	<conio.h>
+	<stdbool.h>
+	"../include/err_constants.h"
+	"../include/matrix2D.h"
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/array_lib.h"
+	"../include/DSM_manager.h"
+
+1792734364 c:\users\eez20\desktop\3_lab_1\include\messanger.h
+	<stdio.h>
+
+1792737961 source:c:\users\eez20\desktop\3_lab_1\src\messager.c
+	<locale.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/err_constants.h"
+
+1792737815 c:\users\eez20\desktop\3_lab_1\include\matrix2d.h
+
+1792737904 c:\users\eez20\desktop\3_lab_1\include\err_constants.h
+
+1792734364 source:c:\users\kesha_res\desktop\3_lab_1\src\dsm_manager.c
+	<stdlib.h>
+	"../include/DSM_manager.h"
+
+1792737960 c:\users\kesha_res\desktop\3_lab_1\include\dsm_manager.h
+	"matrix2D.h"
+	"err_constants.h"
+	<stdbool.h>
+	<stdlib.h>
+
+1792737814 c:\users\kesha_res\desktop\3_lab_1\include\matrix2d.h
+
+1794447436 c:\users\kesha_res\desktop\3_lab_1\include\err_constants.h
+
+1792738338 source:c:\users\kesha_res\desktop\3_lab_1\src\io_lib.c
+	"../include/io_lib.h"
+	<ctype.h>
+	<limits.h>
+
+1792737960 c:\users\kesha_res\desktop\3_lab_1\include\io_lib.h
+	"../include/matrix2D.h"
+	"../include/err_constants.h"
+	"../include/array_lib.h"
+	<stdio.h>
+	<stdlib.h>
+
+1794447248 c:\users\kesha_res\desktop\3_lab_1\include\array_lib.h
+
+1794447248 source:c:\users\kesha_res\desktop\3_lab_1\src\array_lib.c
+	<stdlib.h>
+	<time.h>
+	"../include/err_constants.h"
+	"../include/matrix2D.h"
+	"../include/array_lib.h"
+
+1792737960 source:c:\users\kesha_res\desktop\3_lab_1\src\messanger.c
+	<locale.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"../include/messanger.h"
+	"../include/io_lib.h"
+	"../include/err_constants.h"
+
+1794447201 c:\users\kesha_res\desktop\3_lab_1\include\messanger.h
+	<stdio.h>
+
+1794447391 source:c:\users\kesha_res\desktop\3_lab_1\src\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<Windows.h>
+	<conio.h>
+	<stdbool.h>
+	"../include/err_constants.h"
+	"../include/matrix2D.h"
 	"../include/messanger.h"
 	"../include/io_lib.h"
 	"../include/array_lib.h"

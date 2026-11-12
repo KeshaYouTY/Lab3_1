@@ -1,30 +1,8 @@
 #include <stdlib.h>
 #include <time.h>
-#include "../include/usr_constants.h"
-#include "../include/usr_structs.h"
+#include "../include/err_constants.h"
+#include "../include/matrix2D.h"
 #include "../include/array_lib.h"
-/*int alloc2DSqrArray(int n, char*** array2D) {
-    if(array2D == NULL) return ERR_NULL_ARGUMENT;
-    if(n <= 0) return ERR_BAD_ARGUMENT;
-
-    *array2D = (char**)calloc(n, sizeof(char*));
-    if(*array2D == NULL) return ERR_MEM_ALLOC;
-
-    for(int i = 0; i < n; ++i) {
-        (*array2D)[i] = (char*)calloc(n, sizeof(char));
-
-        //Если происходит ошибка выделения памяти -> освободить уже занятую память.
-        if((*array2D)[i] == NULL) {
-            for(int j = 0; j < i; ++j) {
-                free((*array2D)[j]);
-            }
-            free(*array2D);
-            *array2D = NULL;
-            return ERR_MEM_ALLOC;
-        }
-    }
-    return 0;
-}*/
 
 char **alloc2DSqrArrayV(int n) {
     if(n <= 0) return NULL;
@@ -88,9 +66,7 @@ int randomFill2DMatrix(struct Matrix2D *matrix) {
             matrix->array[i][j] = rand() % 2;
         }
     }
-    for(int i = 0; i < matrix->size; ++i) {
-    matrix->array[i][i] = 0;
-    }
+
     return 0;
 
 }
